@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <title>Timer</title>
+	<head>
+    <style>
+        #timer {
+            font-size: 90px;
+            text-align: center;
+            margin-top: 100px;
+        }
+		h1 {
+			text-align:center; 
+		}
+			button{
+			width: 110px;
+			height: 70px;;
+		}
+        #buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+	
+	<h1 style="font-size: 104px;"> <span style="color:red;">Südtirol</span> VS <span style=" color:aqua;">Niederbayern</span></h1>
+    	<h1 style="font-size: 80px;"> Timer </h1>
+		<h1 style="font-size: 100px;">&#8595;</h1> <!--Pfeil nach Unten-->
+
+	<div id="timer">30</div>
+    <div id="buttons">
+        <button onclick="start()" style="background-color:lightgreen">Start</button>
+        <button onclick="stop()" style="background-color:red">Stop</button>
+        <button onclick="reset()" style="background-color: aqua ">Reset</button>
+        <button onclick="extension()" style="background-color:pink">extension</button>
+        <button onclick="minus10()" style="background-color:orange">-10</button>
+        <button onclick="plus10()" style="background-color:yellow">+10 </button>
+    </div>
+    <script>
+        var seconds = 30
+        var timerElement = document.getElementById("timer");
+        var intervalId;
+
+        function start() {
+            intervalId = setInterval(function() {
+                timerElement.textContent = seconds;
+                seconds--;
+				if (seconds <= 5) { // für den Sound ab 5 Sekunden
+				}
+                if (seconds < 0) {
+                    clearInterval(intervalId);
+                    timerElement.textContent = "Zeit abgelaufen";
+                }
+				
+            }, 1000);
+        }
+
+        function stop() {
+            clearInterval(intervalId);
+        }
+
+        function reset() {
+            clearInterval(intervalId);
+            seconds = 30;
+            timerElement.textContent = seconds;
+        }
+
+        function extension() {
+            seconds += 30;
+            timerElement.textContent = seconds;
+        }
+		function plus10 (){
+			seconds += 10;
+			timerElement.textContent = seconds;
+			}
+        function minus10 (){
+            seconds -= 10;
+            if (seconds < 0) {
+                seconds = 0;
+            }
+            timerElement.textContent = seconds;
+        }
+	</script>
+</body>
+</html>
