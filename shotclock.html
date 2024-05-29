@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <title>Timer</title>
+    <meta charset= utf-8>
 	<head>
     <style>
         #timer {
@@ -24,8 +25,8 @@
 <body>
 	
 	<h1 style="font-size: 104px;"> <span style="color:red;">Südtirol</span> VS <span style=" color:aqua;">Niederbayern</span></h1>
-    	<h1 style="font-size: 80px;"> Timer </h1>
-		<h1 style="font-size: 100px;">&#8595;</h1> <!--Pfeil nach Unten-->
+    <h1 style="font-size: 80px;"> Timer </h1>
+    <h1 style="font-size: 100px;">&#8595;</h1> <!--Pfeil nach Unten-->
 
 	<div id="timer">30</div>
     <div id="buttons">
@@ -36,17 +37,52 @@
         <button onclick="minus10()" style="background-color:orange">-10</button>
         <button onclick="plus10()" style="background-color:yellow">+10 </button>
     </div>
+    <audio id="sound" src="shotclock.mp3"></audio>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js'
+    
+        // Add Firebase products that you want to use
+        import { getAuth } from 'https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js'
+        import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.1/firebase-firestore.js'
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBuqFWzW3oOZRh0q2M9hDV3JxYjnBWKkZc",
+            authDomain: "shotclock-fed1c.firebaseapp.com",
+            projectId: "shotclock-fed1c",
+            storageBucket: "shotclock-fed1c.appspot.com",
+            messagingSenderId: "367343193293",
+            appId: "1:367343193293:web:405c766a814342e7252d84"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        //function updateTimerInDatabase(seconds) {
+        //    // Add a new document in collection "cities"
+        //    await setDoc(doc(db, "cities", "LA"), {
+        //        name: "Los Angeles",
+        //        state: "CA",
+        //        country: "USA"
+        //    });
+        //}
+
+    </script>
     <script>
-        var seconds = 30
+        var seconds = 30;
         var timerElement = document.getElementById("timer");
+        var audio = document.getElementById("sound");
         var intervalId;
 
         function start() {
             intervalId = setInterval(function() {
                 timerElement.textContent = seconds;
                 seconds--;
-				if (seconds <= 5) { // für den Sound ab 5 Sekunden
-				}
+                updateTimerInDatabase(seconds);
+
+				if (seconds < 5) { // für den Sound ab 5 Sekunden
+                    audio.play();
+		        }
                 if (seconds < 0) {
                     clearInterval(intervalId);
                     timerElement.textContent = "Zeit abgelaufen";
